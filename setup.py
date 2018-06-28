@@ -11,7 +11,7 @@ setup(
     provides=[ 'requests_aws_sign' ],
     author='Justin Menga',
     author_email='justin.menga@gmail.com',
-    url='https://github.com/jmenga/requests-aws-sign',
+    url='https://github.com/FindawayWorld/requests-aws-sign',
     description='This package provides AWS V4 request signing using the requests library.',
     keywords='requests aws',
     license='ISC',
