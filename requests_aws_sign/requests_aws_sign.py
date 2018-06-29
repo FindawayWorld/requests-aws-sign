@@ -24,7 +24,7 @@ class AWSV4Sign(requests.auth.AuthBase):
         try:
             # this function replicates the below functionality some of the args we weren't using
             # for reference: https://github.com/python/cpython/blob/master/Lib/urllib/parse.py#L837
-            return urlencode(parse_qs(query_params, keep_blank_values=True, quote_via=quote), doseq=True)
+            return urlencode(parse_qs(query_params, keep_blank_values=True),quote_via=quote, doseq=True)
         except TypeError as e:
             parsed_qs = parse_qs(query_params, keep_blank_values=True)
             escaped_params = {}
@@ -34,9 +34,9 @@ class AWSV4Sign(requests.auth.AuthBase):
             result = []
             for k, v in escaped_params.items():
                 for one_value in v:
-                    result.append(k + '=' + one_value)
+                    result.append(k + u'=' + one_value)
 
-            return '&'.join(result).encode('utf-8')
+            return u'&'.join(result)
 
     def __call__(self, r):
         url = urlparse(r.url)
