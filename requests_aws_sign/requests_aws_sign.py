@@ -24,7 +24,7 @@ class AWSV4Sign(requests.auth.AuthBase):
         try:
             # this function replicates the below functionality some of the args we weren't using
             # for reference: https://github.com/python/cpython/blob/master/Lib/urllib/parse.py#L837
-            return urlencode(parse_qs(url.query, keep_blank_values=True, quote_via=quote), doseq=True)
+            return urlencode(parse_qs(query_params, keep_blank_values=True, quote_via=quote), doseq=True)
         except TypeError as e:
             parsed_qs = parse_qs(query_params, keep_blank_values=True)
             escaped_params = {}
@@ -43,7 +43,7 @@ class AWSV4Sign(requests.auth.AuthBase):
         path = url.path or '/'
         querystring = ''
         if url.query:
-            querystring = '?' + self.encode_params(parsed_params)
+            querystring = '?' + self.encode_params(url.query)
         safe_url = url.scheme + '://' + url.netloc.split(':')[0] + path + querystring
         request = AWSRequest(method=r.method.upper(), url=safe_url, data=r.body)
         SigV4Auth(self.credentials, self.service, self.region).add_auth(request)
